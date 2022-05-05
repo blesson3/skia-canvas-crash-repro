@@ -1,0 +1,32 @@
+# skia-canvas crash issue reproduce
+
+On `node:16-alpine` using the `linux/amd64` platform `skia-canvas` seems to crash when importing.
+The Dockerfile in the repo reproduces the issue.
+
+Run `build-and-run.sh` to reproduce. The following error will be outputted:
+
+```
+$ ./build-and-run.sh
+...
+node:internal/modules/cjs/loader:1189
+  return process.dlopen(module, path.toNamespacedPath(filename));
+                 ^
+
+Error: Error relocating /usr/src/demo/node_modules/skia-canvas/lib/v6/index.node: _ZSt28__throw_bad_array_new_lengthv: symbol not found
+    at Object.Module._extensions..node (node:internal/modules/cjs/loader:1189:18)
+    at Module.load (node:internal/modules/cjs/loader:981:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:822:12)
+    at Module.require (node:internal/modules/cjs/loader:1005:19)
+    at require (node:internal/modules/cjs/helpers:102:18)
+    at Object.<anonymous> (/usr/src/demo/node_modules/skia-canvas/lib/index.js:23:29)
+    at Module._compile (node:internal/modules/cjs/loader:1105:14)
+    at Object.Module._extensions..js (node:internal/modules/cjs/loader:1159:10)
+    at Module.load (node:internal/modules/cjs/loader:981:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:822:12) {
+  code: 'ERR_DLOPEN_FAILED'
+}
+```
+
+The issue is not reproducible using the `node:16-slim` image. Change `USE_DOCKERFILE_SLIM` to 1 in the `build-and-run.sh` script to see it working.
+
+More info at the following issue filed in skia-canvas: https://github.com/samizdatco/skia-canvas/issues/97
