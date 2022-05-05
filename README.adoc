@@ -1,5 +1,7 @@
 # skia-canvas crash issue reproduce
 
+Reproducing repo for the following issue for https://github.com/samizdatco/skia-canvas[skia-canvas]: https://github.com/samizdatco/skia-canvas/issues/97[skia-canvas/#97]
+
 On `node:16-alpine` using the `linux/amd64` platform `skia-canvas` seems to crash when importing.
 The Dockerfile in the repo reproduces the issue.
 
@@ -28,5 +30,3 @@ Error: Error relocating /usr/src/demo/node_modules/skia-canvas/lib/v6/index.node
 ```
 
 The issue is not reproducible using the `node:16-slim` image. Change `USE_DOCKERFILE_SLIM` to 1 in the `build-and-run.sh` script to see it working.
-
-More info at the following issue filed in skia-canvas: https://github.com/samizdatco/skia-canvas/issues/97
